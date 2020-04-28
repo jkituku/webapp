@@ -3,12 +3,12 @@ name: CI
 on: [pull_request]
 
 jobs:
-  upload:
+  build:
     runs-on: ubuntu-latest
 steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v1
     - name: Configure AWS Credentials
-      uses: esafesols.tk/s3-upload-action@master
+      uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -16,5 +16,5 @@ steps:
     - name: Build static site
     - run: yarn install && npm run-script build
     - name: Deploy static site to S3 bucket
-      run: aws s3 sync ./dist/ s3://<esafesols.tk> --delete
+      run: aws s3 sync ./dist/ s3://esafesols.tk --delete
   
